@@ -1,9 +1,12 @@
+export type LessonType = 'learn' | 'error' | 'fill';
+
 export type Lesson = {
   id: string;
   title: string;
   description: string;
   xp: number;
-  track: 'html' | 'css' | 'js' | 'python';
+  track: 'html' | 'css' | 'js' | 'python' | 'java' | 'delphi';
+  type: LessonType;
   content: string;
   challenge: {
     prompt: string;
@@ -22,191 +25,89 @@ export type Track = {
   lessons: Lesson[];
 };
 
+const htmlLessons: Lesson[] = [
+  { id: 'html-1', title: 'Your First Web Page', description: 'Learn the basic skeleton of every HTML page.', xp: 50, track: 'html', type: 'learn', content: '**HTML** stands for HyperText Markup Language — the language browsers use to show web pages. Every HTML page starts with a few key tags that act like the skeleton of your page. Tags come in pairs: an opening tag like `<p>` and a closing tag like `</p>`. Everything you see on a website lives inside these tags!\n\n```html\n<!DOCTYPE html>\n<html>\n  <head><title>My Page</title></head>\n  <body><p>Hello!</p></body>\n</html>\n```', challenge: { prompt: 'Create an h1 tag with the text "CodeCraft" inside it.', starterCode: '<!-- Write your h1 tag here -->', solution: '<h1>CodeCraft</h1>', hint: 'Use <h1> to open and </h1> to close. Put your text in between.' } },
+  { id: 'html-2', title: 'Headings Are a Big Deal', description: 'Use heading tags to organise your content.', xp: 60, track: 'html', type: 'learn', content: 'HTML has **six heading levels** from `<h1>` (biggest) to `<h6>` (smallest). Think of them like a book: `<h1>` is the book title, `<h2>` is a chapter title. Always have one `<h1>` per page.\n\n```html\n<h1>Main Title</h1>\n<h2>Section Title</h2>\n<h3>Sub-section</h3>\n```', challenge: { prompt: 'Add an h1 saying "Welcome to My Blog" and an h2 saying "Latest Posts".', starterCode: '<body>\n  <!-- Add your headings here -->\n</body>', solution: '<body>\n  <h1>Welcome to My Blog</h1>\n  <h2>Latest Posts</h2>\n</body>', hint: 'Use <h1> for the main title and <h2> for the section title.' } },
+  { id: 'html-3', title: 'Link It Up', description: 'Create clickable links with the anchor tag.', xp: 70, track: 'html', type: 'learn', content: 'The `<a>` (anchor) tag lets you create **hyperlinks**. The `href` attribute tells the browser where to go. The text between the tags is what the user sees and clicks.\n\n```html\n<a href="https://www.google.com">Go to Google</a>\n```', challenge: { prompt: 'Create a link that says "Visit CodeCraft" and points to "https://codecraft.app".', starterCode: '<!-- Write your link here -->', solution: '<a href="https://codecraft.app">Visit CodeCraft</a>', hint: 'The href attribute goes inside the opening <a> tag: <a href="url">link text</a>' } },
+  { id: 'html-4', title: 'Picture This', description: 'Embed images into your web page.', xp: 80, track: 'html', type: 'error', content: 'The `<img>` tag embeds an image. It is **self-closing** — no closing tag! It needs a `src` attribute (the image URL) and an `alt` attribute (description for screen readers). Always include `alt`!\n\n```html\n<img src="cat.jpg" alt="A cute cat">\n```', challenge: { prompt: 'Find and fix the bug in this image tag.', starterCode: '<img src="dog.jpg">', solution: '<img src="dog.jpg" alt="A dog">', hint: 'Every <img> tag needs an alt attribute.' } },
+  { id: 'html-5', title: 'List It Out', description: 'Create ordered and unordered lists.', xp: 90, track: 'html', type: 'learn', content: 'HTML has two types of lists: **unordered lists** (`<ul>`) use bullet points, and **ordered lists** (`<ol>`) use numbers. Each item goes inside a `<li>` tag.\n\n```html\n<ul>\n  <li>Apples</li>\n  <li>Bananas</li>\n</ul>```', challenge: { prompt: 'Create an unordered list with three of your favourite games.', starterCode: '<!-- Create a list here -->', solution: '<ul>\n  <li>Minecraft</li>\n  <li>Fortnite</li>\n  <li>Roblox</li>\n</ul>', hint: 'Wrap your <li> items inside a <ul> tag.' } },
+  { id: 'html-6', title: 'Div and Span', description: 'Group elements with div and span containers.', xp: 100, track: 'html', type: 'fill', content: '`<div>` is a block-level container (takes full width). `<span>` is inline (sits inside a line of text). On their own they are invisible, but paired with CSS they are super powerful!\n\n```html\n<div class="card"><p>Inside a div!</p></div>\n<p>This is <span class="highlight">highlighted</span> text.</p>\n```', challenge: { prompt: 'Fill in the blanks: wrap the paragraph in a div with class "box".', starterCode: '<___ class="box">\n  <p>HTML is awesome!</p>\n</___>', solution: '<div class="box">\n  <p>HTML is awesome!</p>\n</div>', hint: 'The block container tag is <div>.' } },
+  { id: 'html-7', title: 'Forms: Get User Input', description: 'Build a simple form to collect data.', xp: 110, track: 'html', type: 'learn', content: 'HTML **forms** let users type in data. The `<form>` tag wraps everything. Inside you use `<input>` for text fields, `<label>` to describe each field, and a `<button type="submit">` to submit.\n\n```html\n<form>\n  <label for="username">Username:</label>\n  <input type="text" id="username" name="username">\n  <button type="submit">Sign Up</button>\n</form>\n```', challenge: { prompt: 'Create a form with a text input for "email" and a submit button saying "Subscribe".', starterCode: '<form>\n  <!-- Add label, input and button here -->\n</form>', solution: '<form>\n  <label for="email">Email:</label>\n  <input type="text" id="email" name="email">\n  <button type="submit">Subscribe</button>\n</form>', hint: 'Match the label\'s "for" attribute to the input\'s "id" attribute.' } },
+  { id: 'html-8', title: 'Table Time', description: 'Display data in rows and columns with tables.', xp: 120, track: 'html', type: 'error', content: 'HTML **tables** organise data into rows and columns. `<table>` wraps the whole thing. `<tr>` creates a row, `<th>` is a header cell, and `<td>` is a regular data cell.\n\n```html\n<table>\n  <tr><th>Name</th><th>Score</th></tr>\n  <tr><td>Alice</td><td>42</td></tr>\n</table>```', challenge: { prompt: 'Find and fix the bug in this table.', starterCode: '<table>\n  <tr><th>Player</th><th>Level</th></tr>\n  <tr><td>Zara<td><td>5</td></tr>\n</table>', solution: '<table>\n  <tr><th>Player</th><th>Level</th></tr>\n  <tr><td>Zara</td><td>5</td></tr>\n</table>', hint: 'Look carefully at the closing tag for the first <td> in the second row.' } },
+  { id: 'html-9', title: 'Semantic HTML', description: 'Use meaningful tags to describe your page structure.', xp: 130, track: 'html', type: 'fill', content: '**Semantic tags** tell the browser what each part of the page *means*. Tags like `<header>`, `<nav>`, `<main>`, `<article>`, and `<footer>` replace generic `<div>` tags with meaningful ones.\n\n```html\n<header><h1>My Site</h1></header>\n<main><article><p>Content</p></article></main>\n<footer>© 2025</footer>\n```', challenge: { prompt: 'Fill in the blanks with the correct semantic tags: header, main, and footer.', starterCode: '<___>\n  <h1>CodeCraft News</h1>\n</___>\n<___>\n  <p>Today\'s top story...</p>\n</___>\n<___>© 2025 CodeCraft</___>', solution: '<header>\n  <h1>CodeCraft News</h1>\n</header>\n<main>\n  <p>Today\'s top story...</p>\n</main>\n<footer>© 2025 CodeCraft</footer>', hint: 'The three semantic tags you need are <header>, <main>, and <footer>.' } },
+  { id: 'html-10', title: 'Putting It All Together', description: 'Build a complete mini web page from scratch.', xp: 140, track: 'html', type: 'error', content: 'You have learned all the key HTML building blocks! When you nest tags, make sure every opening tag has a matching closing tag and they do not overlap. Watch out for missing closing tags — the browser might still render something, but it will not be right!\n\n```html\n<main>\n  <h1>Title</h1>\n  <p>Some text.</p>\n</main>```', challenge: { prompt: 'Find and fix the bug in this complete mini page.', starterCode: '<header>\n  <h1>My Portfolio<h1>\n</header>\n<main>\n  <p>Welcome!</p>\n</main>', solution: '<header>\n  <h1>My Portfolio</h1>\n</header>\n<main>\n  <p>Welcome!</p>\n</main>', hint: 'Check the closing tag for <h1> — is it correct?' } },
+];
+
+const cssLessons: Lesson[] = [
+  { id: 'css-1', title: 'Style Your First Element', description: 'Learn how CSS connects to HTML and changes colours.', xp: 50, track: 'css', type: 'learn', content: '**CSS** (Cascading Style Sheets) is how you make websites look great. A rule looks like: `selector { property: value; }`. You can put CSS in a `<style>` tag or in a separate `.css` file.\n\n```css\np {\n  color: blue;\n  font-size: 18px;\n}```', challenge: { prompt: 'Write a CSS rule that makes all h1 elements red.', starterCode: '/* Write your CSS rule here */', solution: 'h1 {\n  color: red;\n}', hint: 'Your selector is h1, the property is color, and the value is red.' } },
+  { id: 'css-2', title: 'Classes and IDs', description: 'Target specific elements with class and ID selectors.', xp: 60, track: 'css', type: 'learn', content: '**Classes** (selected with `.`) can be reused on multiple elements. **IDs** (selected with `#`) should be unique — only one element per page.\n\n```css\n.highlight { background-color: yellow; }\n#logo { width: 100px; }```', challenge: { prompt: 'Write CSS to give .card a background of lightblue and #title a font-size of 32px.', starterCode: '/* Style the .card class and #title id */', solution: '.card {\n  background-color: lightblue;\n}\n\n#title {\n  font-size: 32px;\n}', hint: 'Classes use a dot (.) prefix, IDs use a hash (#) prefix in CSS.' } },
+  { id: 'css-3', title: 'The Box Model', description: 'Understand how padding, border and margin work.', xp: 70, track: 'css', type: 'learn', content: 'Every HTML element is a **box** with four layers: **content**, **padding** (space inside), **border** (the edge), and **margin** (space outside). Think of it like a framed picture.\n\n```css\n.card {\n  padding: 20px;\n  border: 2px solid black;\n  margin: 10px;\n}```', challenge: { prompt: 'Style a .box with 16px padding, a 3px solid blue border, and 24px margin.', starterCode: '.box {\n  /* Add padding, border, and margin */\n}', solution: '.box {\n  padding: 16px;\n  border: 3px solid blue;\n  margin: 24px;\n}', hint: 'Three properties: padding, border (shorthand: size style color), and margin.' } },
+  { id: 'css-4', title: 'Colourful Backgrounds', description: 'Set background colours and images on elements.', xp: 80, track: 'css', type: 'error', content: 'Set a **background colour** with `background-color` or a **background image** with `background-image`. Colours can be named (`red`), hex (`#ff0000`), or RGB (`rgb(255,0,0)`).\n\n```css\nbody { background-color: #1a1a2e; }```', challenge: { prompt: 'Find and fix the bug in this CSS.', starterCode: 'body {\n  background-colour: #f0f0f0;\n}', solution: 'body {\n  background-color: #f0f0f0;\n}', hint: 'CSS uses American English spelling. Check the property name carefully.' } },
+  { id: 'css-5', title: 'Typography: Fonts and Text', description: 'Control font size, weight, family and text alignment.', xp: 90, track: 'css', type: 'learn', content: 'CSS gives you full control over text. `font-size` controls size, `font-weight` controls bold/thin, `font-family` sets the typeface, and `text-align` aligns text left, right, or center.\n\n```css\nh1 {\n  font-size: 48px;\n  font-weight: 700;\n  text-align: center;\n}```', challenge: { prompt: 'Style .title with font-size 36px, bold, and centered.', starterCode: '.title {\n  /* Add font-size, font-weight, and text-align */\n}', solution: '.title {\n  font-size: 36px;\n  font-weight: bold;\n  text-align: center;\n}', hint: 'You need three properties: font-size, font-weight, and text-align.' } },
+  { id: 'css-6', title: 'Flexbox: Layout Magic', description: 'Use flexbox to arrange items in a row or column.', xp: 100, track: 'css', type: 'fill', content: '**Flexbox** makes it easy to arrange items in a row or column. Add `display: flex` to a container. Use `justify-content` to space items horizontally and `align-items` to align them vertically.\n\n```css\n.container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}```', challenge: { prompt: 'Fill in the blanks to create a flex container that spaces children evenly and centres them vertically.', starterCode: '.nav {\n  display: ___;\n  justify-content: space-___;\n  align-items: ___;\n}', solution: '.nav {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}', hint: 'display: flex, justify-content: space-between, align-items: center.' } },
+  { id: 'css-7', title: 'Hover Effects', description: 'Add interactivity with the :hover pseudo-class.', xp: 110, track: 'css', type: 'learn', content: 'The `:hover` pseudo-class applies styles when the user moves their mouse over an element. Pair it with `transition` to animate smoothly.\n\n```css\n.btn {\n  background-color: blue;\n  transition: background-color 0.3s;\n}\n.btn:hover { background-color: darkblue; }```', challenge: { prompt: 'Write CSS so .btn has a green background normally, and turns darkgreen on hover with a 0.2s transition.', starterCode: '.btn {\n  /* Normal state */\n}\n\n.btn:hover {\n  /* Hover state */\n}', solution: '.btn {\n  background-color: green;\n  transition: background-color 0.2s;\n}\n\n.btn:hover {\n  background-color: darkgreen;\n}', hint: 'Add the transition property to the normal state so it animates both ways.' } },
+  { id: 'css-8', title: 'CSS Grid Basics', description: 'Create two-dimensional layouts with CSS Grid.', xp: 120, track: 'css', type: 'error', content: '**CSS Grid** lets you lay out elements in rows *and* columns. Set `display: grid`, then use `grid-template-columns` to define columns. `repeat()` is a handy shortcut.\n\n```css\n.gallery {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 16px;\n}```', challenge: { prompt: 'Find and fix the bug in this grid CSS.', starterCode: '.grid {\n  display: grid;\n  grid-template-columns: repeat(3 1fr);\n  gap: 10px;\n}', solution: '.grid {\n  display: grid;\n  grid-template-columns: repeat(3, 1fr);\n  gap: 10px;\n}', hint: 'The repeat() function takes two arguments separated by a comma.' } },
+  { id: 'css-9', title: 'Responsive Design', description: 'Make your site look great on phones and desktops.', xp: 130, track: 'css', type: 'fill', content: '**Media queries** let you apply different CSS depending on the screen size. The most common pattern is "mobile first" — write base styles for small screens, then add styles for larger ones.\n\n```css\n.container { width: 100%; }\n@media (min-width: 768px) {\n  .container { width: 720px; }\n}```', challenge: { prompt: 'Fill in the blanks to hide .sidebar on screens smaller than 600px.', starterCode: '.sidebar {\n  display: block;\n}\n\n@media (max-width: ___px) {\n  .sidebar {\n    display: ___;\n  }\n}', solution: '.sidebar {\n  display: block;\n}\n\n@media (max-width: 600px) {\n  .sidebar {\n    display: none;\n  }\n}', hint: 'The breakpoint is 600px, and to hide an element you set display to none.' } },
+  { id: 'css-10', title: 'Animations with @keyframes', description: 'Bring elements to life with CSS animations.', xp: 140, track: 'css', type: 'error', content: 'CSS **animations** change styles over time automatically. Define stages with `@keyframes`, then apply with the `animation` shorthand.\n\n```css\n@keyframes fadeIn {\n  from { opacity: 0; }\n  to { opacity: 1; }\n}\n.popup { animation: fadeIn 0.5s ease 1; }```', challenge: { prompt: 'Find and fix the bug in this CSS animation.', starterCode: '@keyframe pulse {\n  from { transform: scale(1); }\n  to { transform: scale(1.1); }\n}\n\n.icon {\n  animation: pulse 0.8s ease infinite;\n}', solution: '@keyframes pulse {\n  from { transform: scale(1); }\n  to { transform: scale(1.1); }\n}\n\n.icon {\n  animation: pulse 0.8s ease infinite;\n}', hint: 'The at-rule keyword is @keyframes (with an "s" at the end).' } },
+];
+
+const jsLessons: Lesson[] = [
+  { id: 'js-1', title: 'Variables and Values', description: 'Store data in variables using let and const.', xp: 50, track: 'js', type: 'learn', content: '**Variables** are like labelled boxes that store data. Use `let` for values that might change and `const` for values that stay the same. Use `console.log()` to see the value.\n\n```js\nconst name = "Alex";\nlet score = 0;\nconsole.log(name);\n```', challenge: { prompt: 'Create a const "playerName" with your name, and a let "lives" with value 3. Log both.', starterCode: '// Create your variables here', solution: 'const playerName = "Alex";\nlet lives = 3;\nconsole.log(playerName);\nconsole.log(lives);', hint: 'Use const for playerName and let for lives.' } },
+  { id: 'js-2', title: 'Functions: Reusable Code', description: 'Write functions to avoid repeating yourself.', xp: 60, track: 'js', type: 'learn', content: 'A **function** is a reusable block of code. Define it once and call it whenever you need it. Functions can take **parameters** and **return** a result.\n\n```js\nfunction greet(name) {\n  return "Hello, " + name + "!";\n}\nconsole.log(greet("Sam"));\n```', challenge: { prompt: 'Write a function "double" that takes a number and returns it multiplied by 2. Log double(7).', starterCode: '// Write your function here', solution: 'function double(n) {\n  return n * 2;\n}\nconsole.log(double(7));', hint: 'Inside the function, use "return n * 2;"' } },
+  { id: 'js-3', title: 'If / Else: Making Decisions', description: 'Use conditionals to run different code in different situations.', xp: 70, track: 'js', type: 'error', content: '**Conditionals** let your code make decisions. `if` runs a block when true; `else` when false. Always use `===` instead of `==` — it is safer!\n\n```js\nif (score >= 90) {\n  console.log("A grade");\n} else {\n  console.log("Keep trying!");\n}\n```', challenge: { prompt: 'Find and fix the bug in this code.', starterCode: 'const age = 15;\nif age >= 13 {\n  console.log("Teenager!");\n}', solution: 'const age = 15;\nif (age >= 13) {\n  console.log("Teenager!");\n}', hint: 'The condition in an if statement must be wrapped in parentheses.' } },
+  { id: 'js-4', title: 'Loops: Do It Again', description: 'Use for loops to repeat code automatically.', xp: 80, track: 'js', type: 'learn', content: 'A **for loop** repeats a block of code. It has three parts: initialiser, condition, and update. `i++` adds 1 to `i` each iteration.\n\n```js\nfor (let i = 0; i < 3; i++) {\n  console.log("Round " + i);\n}\n```', challenge: { prompt: 'Write a for loop that logs numbers 1 through 5.', starterCode: '// Write your loop here', solution: 'for (let i = 1; i <= 5; i++) {\n  console.log(i);\n}', hint: 'Start i at 1 and use i <= 5 as your condition.' } },
+  { id: 'js-5', title: 'Arrays: Lists of Data', description: 'Store multiple values in a single array variable.', xp: 90, track: 'js', type: 'learn', content: 'An **array** holds multiple values. Create one with square brackets. Access items by **index** (position), starting at 0. Use `.push()` to add and `.length` to count.\n\n```js\nconst fruits = ["apple", "banana"];\nconsole.log(fruits[0]); // apple\nfruits.push("mango");\n```', challenge: { prompt: 'Create an array of 3 colours. Log the second colour and the total count.', starterCode: '// Create your colours array here', solution: 'const colours = ["red", "green", "blue"];\nconsole.log(colours[1]);\nconsole.log(colours.length);', hint: 'Arrays are zero-indexed, so the second item is at index 1.' } },
+  { id: 'js-6', title: 'Objects: Grouping Properties', description: 'Use objects to bundle related data together.', xp: 100, track: 'js', type: 'fill', content: 'An **object** groups related values as **key-value pairs**. Create with curly braces. Access values using dot notation.\n\n```js\nconst player = {\n  name: "Sam",\n  level: 5,\n  health: 100\n};\nconsole.log(player.name);\n```', challenge: { prompt: 'Fill in the blanks to complete the player object and log the score.', starterCode: 'const player = {\n  name: "Jordan",\n  ___: 42,\n  level: 3\n};\nconsole.log(player.___);', solution: 'const player = {\n  name: "Jordan",\n  score: 42,\n  level: 3\n};\nconsole.log(player.score);', hint: 'The missing key is "score" and you access it with player.score.' } },
+  { id: 'js-7', title: 'DOM: Change the Page', description: 'Use JavaScript to update HTML elements on the fly.', xp: 110, track: 'js', type: 'learn', content: 'The **DOM** is the browser\'s live version of your HTML that JavaScript can read and change. Use `document.getElementById()` to grab an element, then change its `.textContent`.\n\n```js\nconst heading = document.getElementById("title");\nheading.textContent = "Hello from JS!";\n```', challenge: { prompt: 'Write JS that gets the element with id "score" and sets its text to "Score: 100".', starterCode: '// Write your DOM code here', solution: 'const scoreEl = document.getElementById("score");\nscoreEl.textContent = "Score: 100";', hint: 'Use document.getElementById("score") then set .textContent.' } },
+  { id: 'js-8', title: 'Events: React to Clicks', description: 'Make buttons do things with addEventListener.', xp: 120, track: 'js', type: 'error', content: '**Events** are things that happen in the browser — a click, a keypress. You "listen" for events with `addEventListener(eventName, function)`. When the event fires, your function runs.\n\n```js\nbtn.addEventListener("click", function() {\n  console.log("Clicked!");\n});\n```', challenge: { prompt: 'Find and fix the bug in this event listener.', starterCode: 'const btn = document.getElementById("go");\nbtn.addEventListener(click, function() {\n  alert("Go!");\n});', solution: 'const btn = document.getElementById("go");\nbtn.addEventListener("click", function() {\n  alert("Go!");\n});', hint: 'The event name must be a string — it needs quote marks around it.' } },
+  { id: 'js-9', title: 'Arrow Functions', description: 'Write cleaner functions with the => arrow syntax.', xp: 130, track: 'js', type: 'fill', content: '**Arrow functions** are a shorter way to write functions. If there is only one expression, you can skip the curly braces and `return` keyword.\n\n```js\nconst square = (n) => n * n;\nconsole.log(square(4)); // 16\n```', challenge: { prompt: 'Fill in the blank to complete this arrow function that adds two numbers.', starterCode: 'const add = (a, b) => ___;\nconsole.log(add(3, 4));', solution: 'const add = (a, b) => a + b;\nconsole.log(add(3, 4));', hint: 'With a single expression arrow function, just write the expression after the arrow.' } },
+  { id: 'js-10', title: 'Fetch: Talk to the Internet', description: 'Load data from an API using the fetch function.', xp: 140, track: 'js', type: 'error', content: '**`fetch()`** lets your JavaScript load data from the internet. It returns a **Promise**. Chain `.then()` to handle the response: first call `.json()` to parse it, then use the data.\n\n```js\nfetch("https://api.example.com/data")\n  .then(response => response.json())\n  .then(data => console.log(data));\n```', challenge: { prompt: 'Find and fix the bug in this fetch call.', starterCode: 'fetch("https://pokeapi.co/api/v2/pokemon/pikachu")\n  .then(response => response.json)\n  .then(data => console.log(data.name));', solution: 'fetch("https://pokeapi.co/api/v2/pokemon/pikachu")\n  .then(response => response.json())\n  .then(data => console.log(data.name));', hint: 'response.json is a method — call it with parentheses: response.json()' } },
+];
+
+const pythonLessons: Lesson[] = [
+  { id: 'py-1', title: 'Hello, Python!', description: 'Run your first Python code and print to the screen.', xp: 50, track: 'python', type: 'learn', content: '**Python** is one of the most popular programming languages — used for AI, web apps, and games! The `print()` function outputs text. Python is clean and readable — no curly braces, just indentation.\n\n```python\nprint("Hello, world!")\n```', challenge: { prompt: 'Write a Python program that prints "CodeCraft is awesome!".', starterCode: '# Write your code here', solution: 'print("CodeCraft is awesome!")', hint: 'Use the print() function with your message inside quotes.' } },
+  { id: 'py-2', title: 'Variables in Python', description: 'Store and use data with Python variables.', xp: 60, track: 'python', type: 'learn', content: 'In Python you create a variable just by writing `name = value` — no keyword needed! Python figures out the **type** automatically. Strings use quotes, numbers do not.\n\n```python\nplayer_name = "Sam"\nhigh_score = 250\nprint(player_name, "scored", high_score)\n```', challenge: { prompt: 'Create a variable "animal" with value "dragon" and "legs" with value 4. Print them both on one line.', starterCode: '# Create your variables', solution: 'animal = "dragon"\nlegs = 4\nprint(animal, legs)', hint: 'You can pass multiple values to print() separated by commas.' } },
+  { id: 'py-3', title: 'Getting User Input', description: 'Read input from the user with the input() function.', xp: 70, track: 'python', type: 'error', content: 'The `input()` function pauses the program and waits for the user to type. Whatever they type comes back as a **string**. If you need a number, wrap it with `int()` to convert!\n\n```python\nname = input("What is your name? ")\nprint("Hello,", name)\n```', challenge: { prompt: 'Find and fix the bug in this code.', starterCode: 'age = input("How old are you? ")\nyears_left = 18 - age\nprint("Years until 18:", years_left)', solution: 'age = int(input("How old are you? "))\nyears_left = 18 - age\nprint("Years until 18:", years_left)', hint: 'input() always returns a string. Convert it to an integer before doing maths.' } },
+  { id: 'py-4', title: 'If Statements in Python', description: 'Make decisions in Python with if, elif, and else.', xp: 80, track: 'python', type: 'learn', content: 'Python uses `if`, `elif`, and `else` for decisions. Python uses **indentation** (4 spaces) instead of curly braces — get this wrong and your code will not work!\n\n```python\nscore = 72\nif score >= 90:\n    print("A grade")\nelif score >= 70:\n    print("B grade")\nelse:\n    print("Keep practising!")\n```', challenge: { prompt: 'Write if/elif/else that prints "Hot" if temp > 30, "Warm" if temp > 15, or "Cold" otherwise. Use temp = 20.', starterCode: 'temp = 20\n# Write your if/elif/else here', solution: 'temp = 20\nif temp > 30:\n    print("Hot")\nelif temp > 15:\n    print("Warm")\nelse:\n    print("Cold")', hint: 'Remember the colon (:) at the end of each if/elif/else line.' } },
+  { id: 'py-5', title: 'For Loops in Python', description: 'Repeat actions and loop through lists with for.', xp: 90, track: 'python', type: 'learn', content: 'Python\'s `for` loop is super clean. Use `range(n)` to generate numbers. `range(1, 6)` goes from 1 to 5 — the end value is NOT included!\n\n```python\nfor i in range(1, 4):\n    print("Round", i)\n```', challenge: { prompt: 'Write a for loop that prints the numbers 1 to 10.', starterCode: '# Write your for loop here', solution: 'for i in range(1, 11):\n    print(i)', hint: 'range(1, 11) gives you 1 through 10 — the end value is not included!' } },
+  { id: 'py-6', title: 'Lists: Python Arrays', description: 'Store, access, and modify collections of data.', xp: 100, track: 'python', type: 'fill', content: 'Python **lists** are ordered collections. Add with `.append()`, remove with `.remove()`, and get the length with `len()`.\n\n```python\ngames = ["Minecraft", "Roblox"]\ngames.append("Fortnite")\nprint(len(games))  # 3\n```', challenge: { prompt: 'Fill in the blanks to append "Python" to the languages list and print the total count.', starterCode: 'languages = ["JavaScript", "HTML", "CSS"]\nlanguages.___(___)\nprint(___(languages))', solution: 'languages = ["JavaScript", "HTML", "CSS"]\nlanguages.append("Python")\nprint(len(languages))', hint: 'Use .append("Python") to add and len() to count the items.' } },
+  { id: 'py-7', title: 'Functions in Python', description: 'Define and call reusable functions with def.', xp: 110, track: 'python', type: 'learn', content: 'Define a function with `def`. Functions can take **parameters** and use `return` to send back a value. Keep functions small and focused on one task.\n\n```python\ndef greet(name):\n    return "Hello, " + name + "!"\n\nprint(greet("Maya"))\n```', challenge: { prompt: 'Write a function "square" that takes a number and returns it squared. Print square(9).', starterCode: '# Define your function here', solution: 'def square(n):\n    return n * n\n\nprint(square(9))', hint: 'Use def square(n): and return n * n inside the function body (indented).' } },
+  { id: 'py-8', title: 'Dictionaries', description: 'Store key-value pairs with Python dictionaries.', xp: 120, track: 'python', type: 'error', content: 'Python **dictionaries** store data as key-value pairs. Create with curly braces: `{"key": value}`. Access values with `dict["key"]`.\n\n```python\nplayer = {"name": "Zara", "level": 5}\nprint(player["name"])  # Zara\n```', challenge: { prompt: 'Find and fix the bug in this code.', starterCode: 'pet = {"name": "Fluffy", "type": "cat", "age": 3}\nprint(pet[name])', solution: 'pet = {"name": "Fluffy", "type": "cat", "age": 3}\nprint(pet["name"])', hint: 'Dictionary keys need to be in quotes when you access them — they are strings!' } },
+  { id: 'py-9', title: 'While Loops', description: 'Repeat code while a condition stays true.', xp: 130, track: 'python', type: 'fill', content: 'A `while` loop keeps running as long as its condition is `True`. Always make sure the condition will eventually become `False` or you will create an infinite loop!\n\n```python\ncount = 0\nwhile count < 3:\n    print("Tick", count)\n    count += 1\n```', challenge: { prompt: 'Fill in the blanks so this while loop counts down from 5 to 1 then prints "Blast off!".', starterCode: 'count = 5\nwhile count ___ 0:\n    print(count)\n    count ___= 1\nprint("Blast off!")', solution: 'count = 5\nwhile count > 0:\n    print(count)\n    count -= 1\nprint("Blast off!")', hint: 'The condition is count > 0, and subtract 1 each loop with count -= 1.' } },
+  { id: 'py-10', title: 'File Reading Basics', description: "Read text from a file using Python's open() function.", xp: 140, track: 'python', type: 'error', content: 'Python can read files with `open()`. Use `with open("file.txt", "r") as f:` — the `with` statement automatically closes the file when done.\n\n```python\nwith open("notes.txt", "r") as f:\n    content = f.read()\n    print(content)\n```', challenge: { prompt: 'Find and fix the bug in this file-reading code.', starterCode: 'with open("data.txt", "r") as f\n    text = f.read()\n    print(text)', solution: 'with open("data.txt", "r") as f:\n    text = f.read()\n    print(text)', hint: 'Python block starters always end with a colon (:). Check the with statement.' } },
+];
+
+const javaLessons: Lesson[] = [
+  { id: 'java-1', title: 'Hello, Java!', description: 'Write and understand your first Java program.', xp: 50, track: 'java', type: 'learn', content: '**Java** is a powerful language behind Android apps, enterprise software, and Minecraft! Every Java program lives inside a **class**, and execution starts in the `main` method. `System.out.println()` prints a line to the console.\n\n```java\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, world!");\n    }\n}\n```', challenge: { prompt: 'Write a Java program that prints "Java is powerful!" to the console.', starterCode: 'public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n    }\n}', solution: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println("Java is powerful!");\n    }\n}', hint: 'Use System.out.println("your message"); inside the main method.' } },
+  { id: 'java-2', title: 'Variables and Data Types', description: 'Declare typed variables in Java.', xp: 60, track: 'java', type: 'learn', content: 'Java requires you to declare the **type** of every variable. Common types: `int` (whole numbers), `double` (decimals), `String` (text), `boolean` (true/false).\n\n```java\nint score = 100;\nString name = "Zara";\nboolean isOnline = true;\n```', challenge: { prompt: 'Declare an int "level" with value 7, a String "hero" with value "Aria", and print them both.', starterCode: 'public class Main {\n    public static void main(String[] args) {\n        // Declare your variables here\n    }\n}', solution: 'public class Main {\n    public static void main(String[] args) {\n        int level = 7;\n        String hero = "Aria";\n        System.out.println(level);\n        System.out.println(hero);\n    }\n}', hint: 'int for numbers, String (capital S) for text. Print with System.out.println().' } },
+  { id: 'java-3', title: 'If / Else in Java', description: 'Use conditionals to control program flow.', xp: 70, track: 'java', type: 'error', content: 'Java\'s `if/else` works similarly to other languages. Use `==` for comparing primitives, but `.equals()` for comparing Strings — this trips up a lot of beginners!\n\n```java\nif (score >= 90) {\n    System.out.println("Excellent!");\n} else {\n    System.out.println("Keep going!");\n}\n```', challenge: { prompt: 'Find and fix the bug in this Java code.', starterCode: 'String mood = "happy";\nif (mood == "happy") {\n    System.out.println("Great!");\n}', solution: 'String mood = "happy";\nif (mood.equals("happy")) {\n    System.out.println("Great!");\n}', hint: 'In Java, never compare Strings with ==. Use the .equals() method instead.' } },
+  { id: 'java-4', title: 'For Loops in Java', description: 'Repeat code a set number of times with for loops.', xp: 80, track: 'java', type: 'learn', content: 'Java\'s `for` loop has three parts: initialisation, condition, and update — separated by semicolons. You can also use the **enhanced for loop** to loop through arrays cleanly.\n\n```java\nfor (int i = 0; i < 5; i++) {\n    System.out.println("Step " + i);\n}\n```', challenge: { prompt: 'Write a for loop that prints "Level 1" through "Level 5".', starterCode: 'public class Main {\n    public static void main(String[] args) {\n        // Write your loop here\n    }\n}', solution: 'public class Main {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 5; i++) {\n            System.out.println("Level " + i);\n        }\n    }\n}', hint: 'Start i at 1 and loop while i <= 5. Concatenate with + to build the string.' } },
+  { id: 'java-5', title: 'Arrays in Java', description: 'Store multiple values in a fixed-size array.', xp: 90, track: 'java', type: 'fill', content: 'Java arrays hold a **fixed number** of elements. Declare with initial values: `int[] nums = {1, 2, 3}`. Access elements by index (starting at 0). Use `.length` for the size.\n\n```java\nint[] scores = {90, 85, 78};\nSystem.out.println(scores[0]); // 90\n```', challenge: { prompt: 'Fill in the blanks to declare a String array of 3 planets and print the first one.', starterCode: 'String[] planets = {___, "Mars", "Jupiter"};\nSystem.out.println(planets[___]);', solution: 'String[] planets = {"Earth", "Mars", "Jupiter"};\nSystem.out.println(planets[0]);', hint: 'The first planet is "Earth" and the first index is 0.' } },
+  { id: 'java-6', title: 'Methods in Java', description: 'Write reusable methods inside your Java class.', xp: 100, track: 'java', type: 'learn', content: 'In Java, functions are called **methods** and live inside a class. A method signature has: access modifier, return type, name, and parameters. The return type must match what you actually return!\n\n```java\npublic static int add(int a, int b) {\n    return a + b;\n}\n```', challenge: { prompt: 'Write a method "multiply" that takes two ints and returns their product. Print multiply(6, 7).', starterCode: 'public class Main {\n    public static void main(String[] args) {\n        // Call your method here\n    }\n    // Write your method here\n}', solution: 'public class Main {\n    public static void main(String[] args) {\n        System.out.println(multiply(6, 7));\n    }\n    public static int multiply(int a, int b) {\n        return a * b;\n    }\n}', hint: 'The return type is int. Write the method outside main but inside the class.' } },
+  { id: 'java-7', title: 'Classes and Objects', description: 'Create your own class and instantiate objects from it.', xp: 110, track: 'java', type: 'learn', content: 'Java is **object-oriented**. You create a **class** as a blueprint and create **objects** from it using `new`. The **constructor** sets up the object when it is created.\n\n```java\nclass Dog {\n    String name;\n    Dog(String name) { this.name = name; }\n    void bark() { System.out.println(name + ": Woof!"); }\n}\n```', challenge: { prompt: 'Create a Cat class with a name field, constructor, and meow() method. Create a Cat and call meow().', starterCode: 'public class Main {\n    public static void main(String[] args) {\n        // Create a Cat object here\n    }\n}\n// Write Cat class here', solution: 'public class Main {\n    public static void main(String[] args) {\n        Cat c = new Cat("Whiskers");\n        c.meow();\n    }\n}\nclass Cat {\n    String name;\n    Cat(String name) { this.name = name; }\n    void meow() { System.out.println(name + " says: Meow!"); }\n}', hint: 'Use this.name = name in the constructor, then reference name in the meow() method.' } },
+  { id: 'java-8', title: 'ArrayList: Dynamic Lists', description: 'Use ArrayList for resizable collections in Java.', xp: 120, track: 'java', type: 'error', content: 'Unlike arrays, **ArrayLists** can grow and shrink. Use `.add()` to append, `.get(index)` to access, and `.size()` for the count. ArrayLists are zero-indexed!\n\n```java\nArrayList<String> names = new ArrayList<>();\nnames.add("Alice");\nSystem.out.println(names.get(0)); // Alice\n```', challenge: { prompt: 'Find and fix the bug in this ArrayList code.', starterCode: 'ArrayList<String> items = new ArrayList<>();\nitems.add("sword");\nitems.add("shield");\nSystem.out.println(items.get(2));', solution: 'ArrayList<String> items = new ArrayList<>();\nitems.add("sword");\nitems.add("shield");\nSystem.out.println(items.get(1));', hint: 'The list has 2 items (indices 0 and 1). Index 2 does not exist.' } },
+  { id: 'java-9', title: 'While Loops and User Input', description: 'Combine while loops with Scanner for interactive programs.', xp: 130, track: 'java', type: 'fill', content: 'Java\'s `Scanner` class reads user input. Import `java.util.Scanner` and create one with `new Scanner(System.in)`. Use `.nextLine()` for text, `.nextInt()` for integers.\n\n```java\nScanner sc = new Scanner(System.in);\nString input = sc.nextLine();\n```', challenge: { prompt: 'Fill in the blanks to create a Scanner and read an integer from the user.', starterCode: 'import java.util.Scanner;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new ___(System.in);\n        int num = sc.___();\n        System.out.println("You entered: " + num);\n    }\n}', solution: 'import java.util.Scanner;\npublic class Main {\n    public static void main(String[] args) {\n        Scanner sc = new Scanner(System.in);\n        int num = sc.nextInt();\n        System.out.println("You entered: " + num);\n    }\n}', hint: 'Create with new Scanner(System.in) and read an integer with .nextInt().' } },
+  { id: 'java-10', title: 'Inheritance: Extending Classes', description: 'Reuse code by having one class extend another.', xp: 140, track: 'java', type: 'error', content: '**Inheritance** lets a child class extend a parent class using `extends`. The child inherits fields and methods. Call the parent constructor with `super()`.\n\n```java\nclass Animal {\n    String name;\n    Animal(String name) { this.name = name; }\n}\nclass Dog extends Animal {\n    Dog(String name) { super(name); }\n}\n```', challenge: { prompt: 'Find and fix the bug in this inheritance code.', starterCode: 'class Vehicle {\n    int speed;\n    Vehicle(int speed) { this.speed = speed; }\n}\nclass Car extend Vehicle {\n    Car(int speed) { super(speed); }\n}', solution: 'class Vehicle {\n    int speed;\n    Vehicle(int speed) { this.speed = speed; }\n}\nclass Car extends Vehicle {\n    Car(int speed) { super(speed); }\n}', hint: 'The keyword for inheriting is "extends" (with an "s").' } },
+];
+
+const delphiLessons: Lesson[] = [
+  { id: 'delphi-1', title: 'Hello, Delphi!', description: 'Write your first Delphi program and show a message.', xp: 50, track: 'delphi', type: 'learn', content: '**Delphi** is a powerful language based on Pascal, used to build fast Windows desktop apps. Programs use a `program` block and code runs between `begin` and `end.`. Use `WriteLn()` to print text. Notice the period after the final `end`!\n\n```pascal\nprogram HelloWorld;\nbegin\n  WriteLn(\'Hello, world!\');\nend.\n```', challenge: { prompt: "Write a Delphi program that prints \"CodeCraft rules!\" to the console.", starterCode: "program MyProgram;\nbegin\n  // Write your code here\nend.", solution: "program MyProgram;\nbegin\n  WriteLn('CodeCraft rules!');\nend.", hint: "Use WriteLn('your message') between begin and end." } },
+  { id: 'delphi-2', title: 'Variables in Delphi', description: 'Declare and use typed variables with the var block.', xp: 60, track: 'delphi', type: 'learn', content: 'In Delphi, variables are declared in a `var` section *before* `begin`. Types: `Integer`, `String`, `Real`, `Boolean`. Assign values with `:=` (not just `=`).\n\n```pascal\nvar\n  playerName: String;\n  score: Integer;\nbegin\n  playerName := \'Sam\';\n  score := 100;\n  WriteLn(playerName);\nend.\n```', challenge: { prompt: "Declare an Integer 'lives' with value 3 and a String 'hero' with value 'Delphi Knight'. Print both.", starterCode: "program MyProgram;\nvar\n  // Declare your variables here\nbegin\n  // Assign and print here\nend.", solution: "program MyProgram;\nvar\n  lives: Integer;\n  hero: String;\nbegin\n  lives := 3;\n  hero := 'Delphi Knight';\n  WriteLn(lives);\n  WriteLn(hero);\nend.", hint: 'Declare in the var section, assign with :=, and print with WriteLn().' } },
+  { id: 'delphi-3', title: 'If / Then / Else', description: 'Make decisions in Delphi with if-then-else.', xp: 70, track: 'delphi', type: 'error', content: "Delphi uses `if ... then ... else`. One quirk: the line *before* `else` should **not** have a semicolon — that's a common trip-up!\n\n```pascal\nif score >= 90 then\n  WriteLn('Excellent!')\nelse\n  WriteLn('Keep going!');\n```", challenge: { prompt: 'Find and fix the bug in this Delphi code.', starterCode: "var\n  age: Integer;\nbegin\n  age := 15;\n  if age >= 18 then\n    WriteLn('Adult');\n  else\n    WriteLn('Minor');\nend.", solution: "var\n  age: Integer;\nbegin\n  age := 15;\n  if age >= 18 then\n    WriteLn('Adult')\n  else\n    WriteLn('Minor');\nend.", hint: 'In Delphi, the statement before "else" must NOT end with a semicolon.' } },
+  { id: 'delphi-4', title: 'For Loops in Delphi', description: 'Repeat actions a set number of times with for loops.', xp: 80, track: 'delphi', type: 'learn', content: "Delphi's `for` loop counts from a start value **to** an end value (inclusive). For counting backwards, use `downto` instead of `to`.\n\n```pascal\nvar\n  i: Integer;\nbegin\n  for i := 1 to 5 do\n    WriteLn('Round ', i);\nend.\n```", challenge: { prompt: "Write a for loop that prints 'Line 1' through 'Line 3'.", starterCode: "program MyProgram;\nvar\n  i: Integer;\nbegin\n  // Write your loop here\nend.", solution: "program MyProgram;\nvar\n  i: Integer;\nbegin\n  for i := 1 to 3 do\n    WriteLn('Line ', i);\nend.", hint: 'Use for i := 1 to 3 do and pass both the string and i to WriteLn.' } },
+  { id: 'delphi-5', title: 'Arrays in Delphi', description: 'Declare and use fixed arrays to store lists of values.', xp: 90, track: 'delphi', type: 'learn', content: 'Delphi arrays are declared with a specific index range: `array[1..5] of Integer`. Unlike many languages, Delphi arrays can start at any index — you choose!\n\n```pascal\nvar\n  scores: array[1..3] of Integer;\nbegin\n  scores[1] := 90;\n  WriteLn(scores[1]);\nend.\n```', challenge: { prompt: "Declare an array of 3 Strings (index 1 to 3), store three colours, and print the second one.", starterCode: "program MyProgram;\nvar\n  colours: array[1..3] of String;\nbegin\n  // Assign colours and print the second one\nend.", solution: "program MyProgram;\nvar\n  colours: array[1..3] of String;\nbegin\n  colours[1] := 'Red';\n  colours[2] := 'Green';\n  colours[3] := 'Blue';\n  WriteLn(colours[2]);\nend.", hint: "Assign each slot with colours[index] := 'value'; then print colours[2]." } },
+  { id: 'delphi-6', title: 'Procedures', description: 'Write procedures to organise and reuse your code.', xp: 100, track: 'delphi', type: 'fill', content: "A **procedure** is a reusable block of code that performs an action but doesn't return a value. Declare it before the main `begin...end.`.\n\n```pascal\nprocedure Greet(name: String);\nbegin\n  WriteLn('Hello, ', name, '!');\nend;\n\nbegin\n  Greet('Coder');\nend.\n```", challenge: { prompt: 'Fill in the blanks to complete this procedure that prints a farewell message.', starterCode: "program MyProgram;\n\n___ SayBye(name: String);\nbegin\n  WriteLn('Goodbye, ', ___, '!');\nend;\n\nbegin\n  SayBye('World');\nend.", solution: "program MyProgram;\n\nprocedure SayBye(name: String);\nbegin\n  WriteLn('Goodbye, ', name, '!');\nend;\n\nbegin\n  SayBye('World');\nend.", hint: 'The keyword to declare a procedure is "procedure".' } },
+  { id: 'delphi-7', title: 'Functions in Delphi', description: 'Write functions that return a value.', xp: 110, track: 'delphi', type: 'learn', content: 'A **function** returns a value. Declare with `function Name(params): ReturnType;`. Assign the result to the special variable `Result` inside the function.\n\n```pascal\nfunction Square(n: Integer): Integer;\nbegin\n  Result := n * n;\nend;\n\nbegin\n  WriteLn(Square(5)); // 25\nend.\n```', challenge: { prompt: 'Write a function "Add" that takes two integers and returns their sum. Print Add(8, 12).', starterCode: "program MyProgram;\n\n// Write your function here\n\nbegin\n  // Call Add and print the result\nend.", solution: "program MyProgram;\n\nfunction Add(a, b: Integer): Integer;\nbegin\n  Result := a + b;\nend;\n\nbegin\n  WriteLn(Add(8, 12));\nend.", hint: 'Assign the answer to Result inside the function body.' } },
+  { id: 'delphi-8', title: 'While Loops in Delphi', description: 'Repeat code while a condition remains true.', xp: 120, track: 'delphi', type: 'error', content: "Delphi's `while ... do` loop keeps executing while the condition is `True`. Wrap multiple statements in `begin ... end`.\n\n```pascal\nwhile count <= 5 do\nbegin\n  WriteLn(count);\n  count := count + 1;\nend;\n```", challenge: { prompt: 'Find and fix the bug in this while loop.', starterCode: "var\n  n: Integer;\nbegin\n  n := 10;\n  while n > 0 do\n  begin\n    WriteLn(n);\n    n = n - 1;\n  end;\nend.", solution: "var\n  n: Integer;\nbegin\n  n := 10;\n  while n > 0 do\n  begin\n    WriteLn(n);\n    n := n - 1;\n  end;\nend.", hint: 'In Delphi, assignment uses := not just =. Check the line that updates n.' } },
+  { id: 'delphi-9', title: 'String Operations', description: "Manipulate text strings with Delphi's built-in functions.", xp: 130, track: 'delphi', type: 'fill', content: "Delphi has many built-in string functions: `Length(s)` returns character count, `UpperCase(s)` converts to uppercase, `Copy(s, start, count)` extracts a substring. Delphi strings are 1-indexed!\n\n```pascal\nWriteLn(UpperCase('hello')); // HELLO\nWriteLn(Length('hello'));    // 5\n```", challenge: { prompt: "Fill in the blanks to print the length of 'Delphi' and its uppercase version.", starterCode: "var\n  lang: String;\nbegin\n  lang := 'Delphi';\n  WriteLn(___(lang));\n  WriteLn(___(lang));\nend.", solution: "var\n  lang: String;\nbegin\n  lang := 'Delphi';\n  WriteLn(Length(lang));\n  WriteLn(UpperCase(lang));\nend.", hint: 'Use Length() to get the character count and UpperCase() to capitalise.' } },
+  { id: 'delphi-10', title: 'Records: Custom Data Structures', description: 'Group related data into a record type.', xp: 140, track: 'delphi', type: 'error', content: 'A **record** groups multiple fields of different types into one custom type. Define it in the `type` section. Access fields with `variableName.fieldName`.\n\n```pascal\ntype\n  TPlayer = record\n    Name: String;\n    Score: Integer;\n  end;\n```', challenge: { prompt: 'Find and fix the bug in this record code.', starterCode: "type\n  TPoint = record\n    X: Integer;\n    Y: Integer;\n  end\n\nvar\n  pt: TPoint;\nbegin\n  pt.X := 10;\n  pt.Y := 20;\n  WriteLn(pt.X, ', ', pt.Y);\nend.", solution: "type\n  TPoint = record\n    X: Integer;\n    Y: Integer;\n  end;\n\nvar\n  pt: TPoint;\nbegin\n  pt.X := 10;\n  pt.Y := 20;\n  WriteLn(pt.X, ', ', pt.Y);\nend.", hint: 'In Delphi, the "end" that closes a type declaration must be followed by a semicolon.' } },
+];
+
 export const tracks: Track[] = [
-  {
-    id: 'html',
-    name: 'HTML',
-    description: 'Build the skeleton of every website',
-    icon: '🌐',
-    color: '#F7971E',
-    lessons: [
-      {
-        id: 'html-1',
-        title: 'What is HTML?',
-        description: 'Learn what HTML is and why it matters',
-        xp: 50,
-        track: 'html',
-        content: `HTML stands for **HyperText Markup Language**. It is the building block of every webpage you've ever visited.
-
-Think of HTML like the skeleton of a human body — it gives structure to everything on a page.
-
-HTML uses **tags** to define elements:
-
-\`\`\`html
-<h1>Hello, World!</h1>
-<p>This is a paragraph.</p>
-\`\`\`
-
-Every tag has an opening \`<tag>\` and a closing \`</tag>\`.`,
-        challenge: {
-          prompt: 'Write an <h1> tag with the text "CodeCraft" inside it.',
-          starterCode: '<!-- Write your h1 tag here -->\n',
-          solution: '<h1>CodeCraft</h1>',
-          hint: 'Use <h1> to open and </h1> to close. Put your text in between.',
-        },
-      },
-      {
-        id: 'html-2',
-        title: 'Headings & Paragraphs',
-        description: 'Structure your content with h1–h6 and p tags',
-        xp: 60,
-        track: 'html',
-        content: `HTML has **6 heading levels** — from \`<h1>\` (biggest) to \`<h6>\` (smallest).
-
-\`\`\`html
-<h1>Main Title</h1>
-<h2>Section Title</h2>
-<h3>Subsection</h3>
-<p>This is a paragraph of text.</p>
-\`\`\`
-
-Use headings to organise your page like chapters in a book.`,
-        challenge: {
-          prompt: 'Create a page with an h1 title, an h2 subtitle, and a paragraph of your choice.',
-          starterCode: '<!-- Add your heading and paragraph here -->\n',
-          solution: '<h1>My Page</h1>\n<h2>Welcome</h2>\n<p>This is my first webpage!</p>',
-          hint: 'You need three tags: <h1>, <h2>, and <p>.',
-        },
-      },
-      {
-        id: 'html-3',
-        title: 'Links & Images',
-        description: 'Connect pages and display images',
-        xp: 75,
-        track: 'html',
-        content: `Links use the \`<a>\` tag with an \`href\` attribute:
-
-\`\`\`html
-<a href="https://www.example.com">Click here</a>
-\`\`\`
-
-Images use the \`<img>\` tag with a \`src\` attribute:
-
-\`\`\`html
-<img src="cat.png" alt="A cute cat" />
-\`\`\`
-
-The \`alt\` text describes the image for screen readers and when the image fails to load.`,
-        challenge: {
-          prompt: 'Write a link to "https://www.google.com" with the text "Search the web".',
-          starterCode: '<!-- Write your anchor tag here -->\n',
-          solution: '<a href="https://www.google.com">Search the web</a>',
-          hint: 'Use <a href="...">text</a> — put the URL inside the href quotes.',
-        },
-      },
-    ],
-  },
-  {
-    id: 'css',
-    name: 'CSS',
-    description: 'Style and beautify your HTML',
-    icon: '🎨',
-    color: '#21D4FD',
-    lessons: [
-      {
-        id: 'css-1',
-        title: 'What is CSS?',
-        description: 'Add colour, fonts, and style to your HTML',
-        xp: 50,
-        track: 'css',
-        content: `CSS stands for **Cascading Style Sheets**. It controls how your HTML looks.
-
-\`\`\`css
-h1 {
-  color: blue;
-  font-size: 32px;
-}
-\`\`\`
-
-This makes every \`<h1>\` tag appear in blue at 32px size.
-
-CSS has three parts:
-1. **Selector** — what to style (\`h1\`)
-2. **Property** — what to change (\`color\`)
-3. **Value** — what to set it to (\`blue\`)`,
-        challenge: {
-          prompt: 'Write CSS to make all <p> tags have red text.',
-          starterCode: '/* Write your CSS rule here */\n',
-          solution: 'p {\n  color: red;\n}',
-          hint: 'Use p as the selector, and color: red; as the property.',
-        },
-      },
-    ],
-  },
-  {
-    id: 'js',
-    name: 'JavaScript',
-    description: 'Make your pages interactive and dynamic',
-    icon: '⚡',
-    color: '#F9F871',
-    lessons: [
-      {
-        id: 'js-1',
-        title: 'Variables & Data',
-        description: 'Store and use information in your programs',
-        xp: 60,
-        track: 'js',
-        content: `Variables store data so you can use it later.
-
-\`\`\`javascript
-let name = "Alex";
-let age = 14;
-let isCoder = true;
-
-console.log(name); // Alex
-\`\`\`
-
-Use \`let\` for values that can change, and \`const\` for values that stay fixed:
-
-\`\`\`javascript
-const PI = 3.14159;
-\`\`\``,
-        challenge: {
-          prompt: 'Create a variable called "score" with the value 100, then log it.',
-          starterCode: '// Write your variable here\n',
-          solution: 'let score = 100;\nconsole.log(score);',
-          hint: 'Use let score = 100; then console.log(score);',
-        },
-      },
-    ],
-  },
-  {
-    id: 'python',
-    name: 'Python',
-    description: 'Write powerful programs with simple syntax',
-    icon: '🐍',
-    color: '#4BC0C8',
-    lessons: [
-      {
-        id: 'py-1',
-        title: 'Your First Python Program',
-        description: 'Print text to the screen',
-        xp: 50,
-        track: 'python',
-        content: `Python is one of the most popular programming languages in the world. It reads almost like English!
-
-\`\`\`python
-print("Hello, World!")
-\`\`\`
-
-The \`print()\` function outputs text to the screen. It's the first thing almost every programmer learns.`,
-        challenge: {
-          prompt: 'Write a print statement that outputs "I am a coder!"',
-          starterCode: '# Write your print statement here\n',
-          solution: 'print("I am a coder!")',
-          hint: 'Use print() and put your text in quotes inside the brackets.',
-        },
-      },
-    ],
-  },
+  { id: 'html', name: 'HTML', description: 'Build the skeleton of every website', icon: '🌐', color: '#F7971E', lessons: htmlLessons },
+  { id: 'css', name: 'CSS', description: 'Style and beautify your HTML', icon: '🎨', color: '#21D4FD', lessons: cssLessons },
+  { id: 'js', name: 'JavaScript', description: 'Make your pages interactive and dynamic', icon: '⚡', color: '#F9F871', lessons: jsLessons },
+  { id: 'python', name: 'Python', description: 'Write powerful programs with simple syntax', icon: '🐍', color: '#4BC0C8', lessons: pythonLessons },
+  { id: 'java', name: 'Java', description: 'Build Android apps and enterprise software', icon: '☕', color: '#FF6B35', lessons: javaLessons },
+  { id: 'delphi', name: 'Delphi', description: 'Create fast Windows desktop applications', icon: '🏆', color: '#C47AFF', lessons: delphiLessons },
 ];

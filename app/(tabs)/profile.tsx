@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
+import { useFocusEffect } from 'expo-router';
 import { Colors } from '../../constants/colors';
 import { loadProgress, UserProgress, defaultProgress } from '../../constants/storage';
 import { tracks } from '../../data/lessons';
@@ -14,9 +15,11 @@ const badges = [
 export default function ProfileScreen() {
   const [progress, setProgress] = useState<UserProgress>(defaultProgress);
 
-  useEffect(() => {
-    loadProgress().then(setProgress);
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      loadProgress().then(setProgress);
+    }, [])
+  );
 
   const totalLessons = tracks.reduce((a, t) => a + t.lessons.length, 0);
 
