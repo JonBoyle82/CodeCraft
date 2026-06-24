@@ -4,10 +4,10 @@ import {
   Text,
   ScrollView,
   TextInput,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   SafeAreaView,
-  Alert,
+  Platform,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Colors } from '../../constants/colors';
@@ -15,6 +15,10 @@ import { tracks, Lesson } from '../../data/lessons';
 import { loadProgress, completeLesson, UserProgress, defaultProgress } from '../../constants/storage';
 
 type Phase = 'learn' | 'challenge' | 'result';
+
+export function generateStaticParams() {
+  return tracks.flatMap((t) => t.lessons.map((l) => ({ id: l.id })));
+}
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -100,9 +104,9 @@ export default function LessonScreen() {
               })}
             </View>
 
-            <TouchableOpacity style={styles.primaryBtn} onPress={() => setPhase('challenge')}>
+            <Pressable style={styles.primaryBtn} onPress={() => setPhase('challenge')}>
               <Text style={styles.primaryBtnText}>Try the Challenge ⚔️</Text>
-            </TouchableOpacity>
+            </Pressable>
           </>
         )}
 
@@ -133,15 +137,15 @@ export default function LessonScreen() {
             )}
 
             <View style={styles.btnRow}>
-              <TouchableOpacity
+              <Pressable
                 style={styles.secondaryBtn}
                 onPress={() => setShowHint(!showHint)}
               >
                 <Text style={styles.secondaryBtnText}>{showHint ? 'Hide Hint' : 'Hint 💡'}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.primaryBtn} onPress={checkAnswer}>
+              </Pressable>
+              <Pressable style={styles.primaryBtn} onPress={checkAnswer}>
                 <Text style={styles.primaryBtnText}>Submit ✓</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </>
         )}
@@ -170,13 +174,13 @@ export default function LessonScreen() {
 
             <View style={styles.btnRow}>
               {!correct && (
-                <TouchableOpacity style={styles.secondaryBtn} onPress={() => setPhase('challenge')}>
+                <Pressable style={styles.secondaryBtn} onPress={() => setPhase('challenge')}>
                   <Text style={styles.secondaryBtnText}>Try Again</Text>
-                </TouchableOpacity>
+                </Pressable>
               )}
-              <TouchableOpacity style={styles.primaryBtn} onPress={handleComplete}>
+              <Pressable style={styles.primaryBtn} onPress={handleComplete}>
                 <Text style={styles.primaryBtnText}>{correct ? 'Continue 🚀' : 'Back to Learn'}</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         )}

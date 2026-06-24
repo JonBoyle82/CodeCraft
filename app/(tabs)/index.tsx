@@ -3,9 +3,10 @@ import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
+  Pressable,
   StyleSheet,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Colors } from '../../constants/colors';
@@ -48,9 +49,13 @@ export default function LearnScreen() {
           const pct = Math.round((completed / track.lessons.length) * 100);
 
           return (
-            <TouchableOpacity
+            <Pressable
               key={track.id}
-              style={[styles.trackCard, { borderLeftColor: track.color }]}
+              style={({ pressed }) => [
+                styles.trackCard,
+                { borderLeftColor: track.color, opacity: pressed ? 0.8 : 1 },
+                Platform.OS === 'web' && ({ cursor: 'pointer' } as any),
+              ]}
               onPress={() =>
                 router.push({
                   pathname: '/lesson/[id]',
@@ -77,7 +82,7 @@ export default function LearnScreen() {
               <Text style={styles.trackMeta}>
                 {completed}/{track.lessons.length} lessons · {track.lessons.reduce((a, l) => a + l.xp, 0)} XP available
               </Text>
-            </TouchableOpacity>
+            </Pressable>
           );
         })}
       </ScrollView>
