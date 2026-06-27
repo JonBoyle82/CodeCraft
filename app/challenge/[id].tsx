@@ -20,11 +20,16 @@ export default function ChallengeScreen() {
 
   if (!challenge) return null;
 
+  function normalizeCode(code: string): string {
+    const track = challenge?.track ?? '';
+    if (track === 'html') return code.replace(/\s+/g, ' ').trim().toLowerCase().replace(/'/g, '"');
+    if (track === 'css') return code.replace(/\s+/g, ' ').trim().toLowerCase();
+    return code.split('\n').map(l => l.trim()).filter((l, i, a) => l !== '' || (i > 0 && a[i-1] !== '')).join('\n').trim();
+  }
+
   function checkAnswer() {
     if (!challenge) return;
-    const trimmed = code.trim().replace(/\s+/g, ' ');
-    const solution = challenge.solution.trim().replace(/\s+/g, ' ');
-    setResult(trimmed === solution ? 'pass' : 'fail');
+    setResult(normalizeCode(code) === normalizeCode(challenge.solution) ? 'pass' : 'fail');
   }
 
   async function handleComplete() {

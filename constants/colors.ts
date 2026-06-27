@@ -15,5 +15,7 @@ export const Colors = {
     css: '#21D4FD',
     js: '#F9F871',
     python: '#4BC0C8',
+    java: '#FF8C42',
+    delphi: '#B24BF3',
   },
 };
