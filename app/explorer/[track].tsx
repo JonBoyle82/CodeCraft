@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   Platform,
 } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Colors } from '../../constants/colors';
 import { explorerData, TagInfo, SequencerChallenge } from '../../data/explorer';
 import { loadProgress, completeLesson, UserProgress, defaultProgress } from '../../constants/storage';
@@ -30,6 +30,7 @@ function shuffle<T>(arr: T[]): T[] {
 
 export default function ExplorerScreen() {
   const { track } = useLocalSearchParams<{ track: string }>();
+  const router = useRouter();
   const explorer = explorerData.find((e) => e.trackId === track);
 
   const [category, setCategory] = useState('All');
@@ -212,6 +213,11 @@ export default function ExplorerScreen() {
       </Modal>
 
       <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
+        {/* Back button */}
+        <Pressable style={styles.backBtn} onPress={() => router.back()}>
+          <Text style={styles.backBtnText}>← Back</Text>
+        </Pressable>
+
         {/* Track header */}
         <View style={[styles.trackHeader, { backgroundColor: explorer.color + '22' }]}>
           <Text style={styles.trackIcon}>{explorer.icon}</Text>
@@ -317,6 +323,8 @@ export default function ExplorerScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
   scroll: { padding: 20, paddingBottom: 60 },
+  backBtn: { marginBottom: 12 },
+  backBtnText: { color: Colors.textMuted, fontSize: 15, fontWeight: '600' },
 
   // Track header
   trackHeader: { flexDirection: 'row', alignItems: 'center', gap: 16, borderRadius: 16, padding: 18, marginBottom: 20 },

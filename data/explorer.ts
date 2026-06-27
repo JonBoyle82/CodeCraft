@@ -51,6 +51,10 @@ const htmlExplorer: TrackExplorer = {
     { id: 'html-seq-1', goal: 'Build a clickable link that says "Visit Google"', tokens: ['<a href="url">', 'Visit Google', '</a>'], distractors: ['<p>', '</p>'], xp: 30 },
     { id: 'html-seq-2', goal: 'Build a 2-item bullet list', tokens: ['<ul>', '<li>Item 1</li>', '<li>Item 2</li>', '</ul>'], distractors: ['<ol>', '</div>'], xp: 40 },
     { id: 'html-seq-3', goal: 'Wrap a heading and paragraph inside a div', tokens: ['<div>', '<h1>Title</h1>', '<p>Content here.</p>', '</div>'], distractors: ['</h1>', '<span>'], xp: 50 },
+    { id: 'html-seq-4', goal: 'Build the skeleton of an HTML page', tokens: ['<html>', '<head>', '</head>', '<body>', '</body>', '</html>'], distractors: ['<div>', '<span>'], xp: 40 },
+    { id: 'html-seq-5', goal: 'Wrap a heading in a header and add a footer', tokens: ['<header>', '<h1>My Site</h1>', '</header>', '<footer>', '<p>© 2026</p>', '</footer>'], distractors: ['<div>', '<nav>'], xp: 45 },
+    { id: 'html-seq-6', goal: 'Build a simple signup form', tokens: ['<form>', '<input type="text" placeholder="Name">', '<button type="submit">Sign Up</button>', '</form>'], distractors: ['<div>', '<p>Submit</p>'], xp: 45 },
+    { id: 'html-seq-7', goal: 'Add an image with a source and alt text', tokens: ['<img src="photo.jpg" alt="A photo">'], distractors: ['<img src="photo.jpg">', '<picture alt="A photo">'], xp: 25 },
   ],
 };
 
@@ -78,6 +82,8 @@ const cssExplorer: TrackExplorer = {
     { id: 'css-seq-1', goal: 'Write a CSS rule to make h1 purple and centred', tokens: ['h1 {', 'color: purple;', 'text-align: center;', '}'], distractors: ['font-size: 16px;', '.h1 {'], xp: 30 },
     { id: 'css-seq-2', goal: 'Create a flex container that centres its children', tokens: ['.container {', 'display: flex;', 'justify-content: center;', 'align-items: center;', '}'], distractors: ['display: block;', 'margin: 0;'], xp: 40 },
     { id: 'css-seq-3', goal: 'Style .card with padding, border, and rounded corners', tokens: ['.card {', 'padding: 20px;', 'border: 2px solid black;', 'border-radius: 12px;', '}'], distractors: ['margin: 20px;', 'color: red;'], xp: 50 },
+    { id: 'css-seq-4', goal: 'Style body with a dark background and large font size', tokens: ['body {', 'background-color: #1a1a2e;', 'font-size: 18px;', '}'], distractors: ['background: blue;', 'font: 18;'], xp: 35 },
+    { id: 'css-seq-5', goal: 'Style h2 with bold text and vertical margin', tokens: ['h2 {', 'font-weight: bold;', 'margin: 24px 0;', '}'], distractors: ['font-bold: true;', 'margin-top: 0;'], xp: 35 },
   ],
 };
 
@@ -105,6 +111,9 @@ const jsExplorer: TrackExplorer = {
     { id: 'js-seq-1', goal: 'Declare a const variable and log it', tokens: ["const name = 'Alex';", 'console.log(name);'], distractors: ['let name;', 'return name;'], xp: 25 },
     { id: 'js-seq-2', goal: 'Write a function that doubles a number', tokens: ['function double(n) {', 'return n * 2;', '}'], distractors: ['return n + 2;', 'const double = n;'], xp: 35 },
     { id: 'js-seq-3', goal: 'Write a for loop that logs 1, 2, 3', tokens: ['for (let i = 1; i <= 3; i++) {', 'console.log(i);', '}'], distractors: ['while (i <= 3) {', 'for (let i = 0; i < 3; i--) {'], xp: 40 },
+    { id: 'js-seq-4', goal: 'Declare a let score and check if it passes', tokens: ['let score = 75;', 'if (score >= 50) {', "console.log('Passing!');", '}'], distractors: ['const score = 75;', 'if score >= 50 {'], xp: 35 },
+    { id: 'js-seq-5', goal: 'Create an array and log its first item', tokens: ["const fruits = ['apple', 'banana'];", 'console.log(fruits[0]);'], distractors: ["const fruits = ('apple', 'banana');", 'console.log(fruits[1]);'], xp: 30 },
+    { id: 'js-seq-6', goal: 'Write an arrow function that adds two numbers', tokens: ['const add = (a, b) => a + b;', 'console.log(add(3, 4));'], distractors: ['const add = (a, b) { return a + b };', 'console.log(add);'], xp: 35 },
   ],
 };
 
@@ -132,6 +141,9 @@ const pythonExplorer: TrackExplorer = {
     { id: 'py-seq-1', goal: 'Store a name in a variable and print a greeting', tokens: ["name = 'Alex'", "print('Hello,', name)"], distractors: ['input(name)', 'return name'], xp: 25 },
     { id: 'py-seq-2', goal: 'Define a function that returns a number squared', tokens: ['def square(n):', '    return n * n'], distractors: ['    return n + n', 'function square(n):'], xp: 35 },
     { id: 'py-seq-3', goal: 'Write a for loop that prints 1, 2, 3', tokens: ['for i in range(1, 4):', '    print(i)'], distractors: ['for i in range(0, 3):', '    return i'], xp: 35 },
+    { id: 'py-seq-4', goal: 'Check a score with if/else', tokens: ['if score >= 90:', "    print('A grade')", 'else:', "    print('Keep going!')"], distractors: ['if (score >= 90) {', "print('A grade')"], xp: 35 },
+    { id: 'py-seq-5', goal: 'Add an item to a list and print its length', tokens: ['games = []', "games.append('Minecraft')", 'print(len(games))'], distractors: ['games = {}', 'print(games.length)'], xp: 35 },
+    { id: 'py-seq-6', goal: 'Use a while loop to count down from 3', tokens: ['count = 3', 'while count > 0:', '    print(count)', '    count -= 1'], distractors: ['while (count > 0):', '    count--'], xp: 40 },
   ],
 };
 
@@ -157,6 +169,8 @@ const javaExplorer: TrackExplorer = {
     { id: 'java-seq-1', goal: 'Print "Hello World" to the console', tokens: ['System.out.println(', '"Hello World"', ');'], distractors: ['print(', '"Hello World";'], xp: 25 },
     { id: 'java-seq-2', goal: 'Declare an int variable called score set to 100', tokens: ['int', 'score', '=', '100;'], distractors: ['String', 'var', '=='], xp: 30 },
     { id: 'java-seq-3', goal: 'Write an if statement that checks if score is over 90', tokens: ['if (score > 90) {', 'System.out.println("Excellent!");', '}'], distractors: ['if score > 90:', 'println("Excellent!");'], xp: 40 },
+    { id: 'java-seq-4', goal: 'Write a for loop that prints 1 to 5', tokens: ['for (int i = 1; i <= 5; i++) {', 'System.out.println(i);', '}'], distractors: ['for (i = 1; i < 5; i++)', 'print(i);'], xp: 40 },
+    { id: 'java-seq-5', goal: 'Write the skeleton of a Java class with a main method', tokens: ['public class Main {', 'public static void main(String[] args) {', 'System.out.println("Hello!");', '}', '}'], distractors: ['class main {', 'static public void Main() {'], xp: 50 },
   ],
 };
 
@@ -182,6 +196,9 @@ const delphiExplorer: TrackExplorer = {
     { id: 'delphi-seq-1', goal: "Print 'Hello World' using writeln", tokens: ["writeln(", "'Hello World'", ");"], distractors: ["print(", "'Hello World';"], xp: 25 },
     { id: 'delphi-seq-2', goal: 'Write a complete begin/end block that prints a greeting', tokens: ['begin', "writeln('Hello!');", 'end.'], distractors: ['program;', 'end;'], xp: 35 },
     { id: 'delphi-seq-3', goal: 'Write an if/then that checks if score > 90', tokens: ['if score > 90 then', "writeln('Excellent!');"], distractors: ['if (score > 90) {', 'then writeln;'], xp: 35 },
+    { id: 'delphi-seq-4', goal: 'Write a Delphi program that declares a variable and prints it', tokens: ['program MyApp;', 'var', '  score: Integer;', 'begin', '  score := 100;', '  writeln(score);', 'end.'], distractors: ['app MyApp;', 'score = 100;'], xp: 50 },
+    { id: 'delphi-seq-5', goal: 'Write a for loop that counts to 5', tokens: ['for i := 1 to 5 do', '  writeln(i);'], distractors: ['for i = 1 to 5', '  print(i);'], xp: 35 },
+    { id: 'delphi-seq-6', goal: 'Define a procedure that prints a greeting', tokens: ['procedure Greet(name: String);', 'begin', "  writeln('Hello, ', name);", 'end;'], distractors: ['void Greet(name) {', 'function Greet:'], xp: 45 },
   ],
 };
 
