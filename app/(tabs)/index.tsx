@@ -53,34 +53,41 @@ export default function LearnScreen() {
           const nextLesson = track.lessons[Math.min(completed, track.lessons.length - 1)];
 
           return (
-            <Pressable
-              key={track.id}
-              style={({ pressed }) => [
-                styles.trackCard,
-                { borderLeftColor: track.color, opacity: pressed ? 0.8 : 1 },
-                Platform.OS === 'web' && ({ cursor: 'pointer' } as any),
-              ]}
-              onPress={() =>
-                router.push({ pathname: '/lesson/[id]', params: { id: nextLesson.id } })
-              }
-            >
-              <View style={styles.trackHeader}>
-                <Text style={styles.trackIcon}>{track.icon}</Text>
-                <View style={styles.trackInfo}>
-                  <Text style={styles.trackName}>{track.name}</Text>
-                  <Text style={styles.trackDesc}>{track.description}</Text>
+            <View key={track.id} style={[styles.trackCard, { borderLeftColor: track.color }]}>
+              <Pressable
+                style={({ pressed }) => [
+                  { opacity: pressed ? 0.8 : 1 },
+                  Platform.OS === 'web' && ({ cursor: 'pointer' } as any),
+                ]}
+                onPress={() =>
+                  router.push({ pathname: '/lesson/[id]', params: { id: nextLesson.id } })
+                }
+              >
+                <View style={styles.trackHeader}>
+                  <Text style={styles.trackIcon}>{track.icon}</Text>
+                  <View style={styles.trackInfo}>
+                    <Text style={styles.trackName}>{track.name}</Text>
+                    <Text style={styles.trackDesc}>{track.description}</Text>
+                  </View>
+                  <Text style={styles.trackPct}>{pct}%</Text>
                 </View>
-                <Text style={styles.trackPct}>{pct}%</Text>
-              </View>
 
-              <View style={styles.progressBg}>
-                <View style={[styles.progressFill, { width: `${pct}%` as any, backgroundColor: track.color }]} />
-              </View>
+                <View style={styles.progressBg}>
+                  <View style={[styles.progressFill, { width: `${pct}%` as any, backgroundColor: track.color }]} />
+                </View>
 
-              <Text style={styles.trackMeta}>
-                {completed}/{track.lessons.length} lessons · {track.lessons.reduce((a, l) => a + l.xp, 0)} XP available
-              </Text>
-            </Pressable>
+                <Text style={styles.trackMeta}>
+                  {completed}/{track.lessons.length} lessons · {track.lessons.reduce((a, l) => a + l.xp, 0)} XP available
+                </Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.exploreBtn, { borderColor: track.color }]}
+                onPress={() => router.push({ pathname: '/explorer/[track]', params: { track: track.id } })}
+              >
+                <Text style={[styles.exploreBtnText, { color: track.color }]}>🔍 Explore {track.name}</Text>
+              </Pressable>
+            </View>
           );
         })}
       </ScrollView>
@@ -109,4 +116,6 @@ const styles = StyleSheet.create({
   progressBg: { height: 6, backgroundColor: Colors.surface, borderRadius: 3, marginBottom: 8, overflow: 'hidden' },
   progressFill: { height: '100%', borderRadius: 3 },
   trackMeta: { fontSize: 12, color: Colors.textMuted },
+  exploreBtn: { marginTop: 10, borderWidth: 1, borderRadius: 8, paddingVertical: 7, alignItems: 'center' },
+  exploreBtnText: { fontSize: 12, fontWeight: '700' },
 });
